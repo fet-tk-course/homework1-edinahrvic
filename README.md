@@ -271,6 +271,9 @@ Provjera ispravnosti broja projekata i certifikata koji je izracunala funkcija c
 ```
  I na kraju provjera agregatne funkcije filter koja je koristena na pocteku grupisanja inzenjera.
 }
+## reduce(), fold(), agregate()
+fold() agregatna funkcija kao parametre ima pocetnu akumulaciju i labmda izraz. Fold rekurzivno prolazi kroz sve elemente liste, te se akumulacija prenosi iz iteracije u iteraciju. Koristi se kada zelimo izvrsiti neku operaciju nad listom, ali uz datu pocetnu vrijednost. Povratna vrijednost je akumulirana vrijednost. reduce() kao parametar ima samo lambda izraz koji se primjenjuje na sve elemente liste. Povratna vrijednost bude obicno jedan elemenat liste. Koristi se kada nije potrebna nikakva dodatna vrijednost osim elemenata liste. aggregate() kao parametre uzima inicijalnu vrijednost za akumulaciju i lambda izraz koji vrsi neku operaciju. Operacije su obicno matematicke agregatne operacije.
+
 ## Upotreba AI alata
 AI alat je koristen za funkciju aggregate() jer nije ugradjena funkcija poput reduce(), te mi je bila potrebna pomoc oko potpisa funkcije.
 ## Primjeri izvrsavanja programa
