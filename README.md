@@ -8,11 +8,11 @@ Zadaca br. 1 za predmet Razvoj mobilnih aplikacija i servisa 2025/26
 **Predmet:** Razvoj mobilnih aplikacija i servisa  
 **Semestar:** 2025/2026  
 **Okruženje:** [Kotlin Playground](https://play.kotlinlang.org/)
----
+
 
 ## Uvod
 U nastavku se nalazi rjesenje zadace broj 1, zadatak B. U prvom dijelu zadatka implementirane su neke jednostavne klase, interfejsi. Prikazana je i primjena nasljedjivanja. Cilj drugog dijela zadatka je bilo razumijevanje i upotreba agregatnih funkcija kao sto su reduce, fold, map, filter i slicno. Navedene funkcije su koristene sa razlicitim vrstama kolekcija. U nastavku se nalazi detaljan pregled koda.
----
+
 
 ## Interface Person
 
@@ -127,6 +127,7 @@ class ElectricalEngineer(
 Klasa ElectricalEngineer slicno klasi SoftwareEngineer ima svoja vlastita nova polja oznacena sa val ili var, te samo parametre za polja Engineer klase. Poziva se konstruktor super klase.init blok ima istu ulogu kao i u klasi Engineer. Funkcija printInfo je override-ovana iz super klase, prilagodjena inzenjerima elektrotehnike.
 
 ## fold()
+
 fun groupEngineersByExpertise(engineers: List<Engineer>): Map<String, List<Engineer>> {
     return engineers
         .filter { it.experience > 5 } 
@@ -138,9 +139,11 @@ fun groupEngineersByExpertise(engineers: List<Engineer>): Map<String, List<Engin
             acc
         }
 }
+
 U funkciji iznad se primjenjuju agregatne funkcije filter, map i fold. Funkcija uzima kao argument listu inzenjera, a vraca mapu inzenjera grupisanih po poljima ekspertize. Agregatna funkcija filter vraca samo one elemente liste cije iskustvo je vece od 5. Na ovaj nacin se izbjegava rad sa nepotrebnim elementima. Potom, agregatna funkcija fold kao prvi parametar uzima akumulaciju koja je na pocetku prazna mapa. Mapa mora biti mutable da bi se mogli dodavati novi elementi u svakoj iteraciji. Mapa ima kljuceve tipa String koji su namijenjeni za polja ekspertize, a vrijednosti mape su tipa List<Engineer> da bi se mogli spremiti inzenjeri u odogvarajuce grupe. Fold kao drugi parametar uzima lambda izraz na osnovu kojeg vrsi rekurzivni proracun. Lambda izraz radi na nacin da se prolazi kroz listu inzenjera, prvi svakom prolazu se spreme ekspertize tog inzenjera. Potom za svaku ekspertizu se kreira kljuc, ako kljuc vec postoji inzenjer se samo dodaje u listu koja odgovara vec postojecem kljucu. Lambda izraz mora vratiti akumulaciju, u zadnji red se stavlja varijabla acc.
 
 ## reduce()
+
 fun findMostExperiencedEngineers(engineers: List<Engineer>): Pair<SoftwareEngineer?, ElectricalEngineer?> {
     val softwareEngineers = engineers.filterIsInstance<SoftwareEngineer>()
     val electricalEngineers = engineers.filterIsInstance<ElectricalEngineer>()
@@ -155,9 +158,11 @@ fun findMostExperiencedEngineers(engineers: List<Engineer>): Pair<SoftwareEngine
 
     return Pair(mostExperiencedSoftware, mostExperiencedElectrical)
 }
+
 Cilj funkcije je pronaci inzenjere sa najvecim brojem godina iskustva. Na pocetku funckije lista inzenjera se rastavlja na dvije i to tipa SoftwareEngineer i ElectricalEngineer. U ove svrhe upotrebljena je funkcija filterIsInstance(). Da se pronadje najiskusniji inzenjer iz billo koje od navedenih listi potrebno je koristiti agregatnu funkciju reduce. Agregatna funckija reduce prolazi kroz sve elemente liste i ne treba pocetnu vrijednost za akumulaciju. Koristi se za poredjenje elemenata liste, sto je i potrebno u ovom slucaju. reduce() prolazi kroz cijelu listu inzenjera i poredi njihove godine iskustva, onaj objekat koji ima veci broj godina iskustva biva vracen rekurzivno u narednu iteraciju. Funkcija vraca poseban objekat tipa Pair jer je potrebno vratiti najiskusnijeg inzenjera za svaku od listi.
 
 ## agregate()
+
 fun calculateTotalProjectsAndCertificates(engineers: List<Engineer>): Int {
     val softwareEngineers = engineers.filterIsInstance<SoftwareEngineer>()
     val electricalEngineers = engineers.filterIsInstance<ElectricalEngineer>()
@@ -175,8 +180,9 @@ fun <T> Iterable<T>.aggregate(initial: Int, operation: (acc: Int, T) -> Int): In
     for (element in this) acc = operation(acc, element)
     return acc
 }
+
 aggregate() nije ugradjena agregatna funkcija kao sto su to reduce() ili filter(). Dakle potrebno je prvo definirati aggregate(), pa je potom upotrijebiti. aggregate() mora imati potpis slican drugim agregatnim funkcijama (filter, map). Mora implementirati interface Itreable, a kao parametre ima inicijalnu vrijednost za akumulaciju i lambda izraz koji predstavlja operaciju koju ce aggregate izvrsavati. U funkcijji calculateTotalProjectsAndCertificates se uzima kao argument lista inzenjera. Lista se rastavlja na dvije kako je vec ranije objasnjeno. Potom se za svaku od listi inzenjera poziva agreggate. Kao inicijalna vrijednost se prosljedjuje 0, a kao operacija lambda izraz koji sabira rekurzivno broj projekata/certifikata svakog od inzenjera u datoj listi. Na kraju, funkcija vraca ukupan broj projekata i certifikata.
----
+
 ## main()
 fun main() {
     val engineers = listOf(
