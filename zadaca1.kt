@@ -33,7 +33,6 @@ open class Engineer(
     }
 }
 
-
 class SoftwareEngineer(
     name: String,
     surname: String,
@@ -143,6 +142,36 @@ fun printAllEngineers(engineers: List<Engineer>) {
     engineers.forEach { it.printInfo() }
 }
 
+fun mostDiverseEngineer(engineers: List<Engineer>) : Engineer {
+    var mapOfEngineers = engineers.fold(mutableMapOf<Int, MutableList<Engineer>>()){acc, engineer ->
+            val fields = engineer.expertiseFields.split(",").map { it.trim() }
+        	var numOfFields = fields.size
+        	acc.getOrPut(numOfFields){ mutableListOf()}.add(engineer)
+        	acc
+    		}
+    var max  = 0;
+    var maxEngineer : List<Engineer> = listOf<Engineer>()
+    
+   for(element in mapOfEngineers){
+       if(max < element.key){
+           maxEngineer = element.value
+           max = element.key
+       }
+   }
+   var maxAgeEngineer : Engineer = maxEngineer[0]
+   if(maxEngineer.size > 1){
+       for(element in maxEngineer){
+           if(maxAgeEngineer.experience < element.experience){
+               maxAgeEngineer = element
+           }
+       }
+   } else {
+       maxAgeEngineer = maxEngineer[0]
+   }
+   
+   return maxAgeEngineer
+}
+
 fun main() {
     val engineers = listOf(
         SoftwareEngineer("Edina", "Hrvic", "2003-07-25", 8, "Kotlin, C++, Java", 15, "C++"),
@@ -152,6 +181,9 @@ fun main() {
         SoftwareEngineer("Edin", "Hrvic", "1997-10-10", 9, "C++, React, C#", 4, "React")
 
     )
+    
+    var mostDiverseEngineer = mostDiverseEngineer(engineers)
+    println("Most diversed engineer is: " + mostDiverseEngineer.name + " " + mostDiverseEngineer.surname + " " + mostDiverseEngineer.experience + " years of experience")
 
  
     val groups = groupEngineersByExpertise(engineers)
